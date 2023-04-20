@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/dist/output.css">
+    <link rel="stylesheet" href="/public/dist/style2.css">
+    <title>Document</title>
+</head>
+
+<body class="bg-gray-200" style="font-family: Comic sans ms;">
+
+    <div id="navbar" class="bg-gray-100 text-xl">
+        <nav class=" flex flex-row gap-4 mx-8 justify-between items-center relative">
+            <div id="nav-left" class="flex items-center">
+                <img src="/public/assets/logo.png" class="m-2 pr-2">
+                <div class="hidden flex-row items-center sm:flex">
+                    <a href="/" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Home</a>
+                    <a href="/myProject" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Add Project</a>
+                    <!-- <a href="./testimonial.html" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Testimonial</a> -->
+                </div>
+            </div>
+            <div id="nav-right" class="flex p-2 gap-2">
+                <div class="hidden sm:flex">
+                    <a href="/contactMe"
+                        class="bg-black text-white rounded-xl px-2 py-1 hover:bg-blue-500 transition-all">Contact Me</a>
+                </div>
+                <div id="burger" class="flex-col justify-center flex sm:hidden">
+                    <button id="toggle-button" class="flex flex-col gap-1.5">
+                        <span class="h-1 w-7 bg-white rounded"></span>
+                        <span class="h-1 w-7 bg-white rounded"></span>
+                        <span class="h-1 w-7 bg-white rounded"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="nav-down" class="mobileNav flex flex-col text-center justify-center bg-gray-300  sm:hidden shadow-lg">
+        <a href="/" class="py-2 hover:bg-blue-500 hover:text-white transition-all">Home</a>
+        <a href="/myProject" class="py-2 hover:bg-blue-500 hover:text-white transition-all">My Project</a>
+        <!-- <a href="./testimonial.html" class="py-2 hover:bg-blue-500 hover:text-white transition-all">Testimonial</a> -->
+        <a href="/contactMe" class="py-2 hover:bg-blue-500 hover:text-white transition-all">Contact Me</a>
+    </div>
+
+    <div class="shadow-lg m-[5%] lalala">
+        <div id="box" class="bg-white">
+            <div id="content" class="flex flex-col items-center lg:flex-row">
+                <div id="left-content" class="m-7">
+                    <div id="content1" class="mb-5">
+                        <h1 class="text-3xl text"><b>Welcome to my hut</b></h1>
+                        <p class="text-justify"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
+                            adipisci animi, ad mollitia tenetur dicta, omnis aperiam pariatur facilis optio a
+                            temporibus! In ullam dicta maxime voluptates vel delectus corrupti non illo minima debitis
+                            fugiat fuga, autem impedit repellat repudiandae nisi, similique consectetur commodi, ut
+                            expedita animi aspernatur. Pariatur, officiis.</p>
+                    </div>
+                    <div id="content2" class="flex flex-row items-center mb-5">
+                        <a href="contactMe.html"
+                            class="bg-black text-white rounded-xl px-2 py-1 hover:bg-blue-500 transition-all">Content</a>
+                        <div class="flex ml-2">
+                            <a>Download CV</a>
+                            <a href="#" target="_blank">
+                                <img src="/public/assets/download.png" alt="Hooh" class="downLogo" />
+                            </a>
+                        </div>
+                    </div>
+                    <div id="content3" class="flex justify-center gap-3 lg:justify-start">
+                        <a href="https://www.linkedin.com/in/syahril-ramadhan-410385250/">
+                            <img src="/public/assets/linkedin.png" class="medLogo" alt="">
+                        </a>
+                        <a href="https://www.instagram.com/syhrlkywr/">
+                            <img src="/public/assets/instagram.png" class="medLogo" alt="">
+                        </a>
+                        <a href="https://web.facebook.com/Rodyulo/">
+                            <img src="/public/assets/facebook.png" class="medLogo" alt="">
+                        </a>
+                        <a href="https://www.twitter.com/">
+                            <img src="/public/assets/twitter.png" class="medLogo" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div id="right-content" class="mb-7 lg:m-7">
+                    <div class="card text-center shadow-lg bg-slate-200 pb-[20px]">
+                        <div>
+                            <img src="/public/assets/profile.jpg" alt="" class="w-60 lg:w-auto prof-image">
+                        </div>
+                        <div class="" style="padding-top: 20px;">
+                            <p>Syahril Ramadhan</p>
+                            <p>Fullstack Develover</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="container" class="bg-gray-100 flex flex-col">
+        <center>
+            <h1 class="text-3xl my-10">My Project</h1>
+        </center>
+        <div id="card-area " class="flex flex-row justify-center m-4 flex-wrap ">
+            {{range $index, $data := .Project}}
+            <div id="box" class="p-3 w-80 bg-white rounded-lg flex flex-col justify-between gap-4 shadow-lg m-3">
+                <div>
+                    <img src="{{$data.Img}}" alt="" class="w-80 h-80 rounded-lg object-cover">
+                </div>
+                <div id="header" class="text-justify flex flex-col">
+                    <a href="/proj-detail/{{$index}}" class="text-base">{{$data.Title}}</a>
+                    <label for="duration" class="text-sm text-slate-400">duration : {{$data.Duration}}</label>
+                    <label for="time" class="text-sm text-slate-400">3 min</label>
+                </div>
+                <div id="desc" class="text-justify ">
+                    <p class="text-sm">{{$data.Description}}</p>
+                </div>
+                <div id="logo-area" class="flex gap-3">
+                    {{if .React}}
+                        <img src="/public/assets/react.png" alt="" class="w-[35px]">
+                    {{end}}
+                    {{if .Next}}
+                        <img src="/public/assets/next.png" alt="" class="w-[35px]">
+                    {{end}}
+                    {{if .Node}}
+                        <img src="/public/assets/node.png" alt="" class="w-[35px]">
+                    {{end}}
+                    {{if .Typescript}}
+                        <img src="/public/assets/typescript.png" alt="" class="w-[35px]">
+                    {{end}}
+                </div>
+                <div id="button-area" class="flex flex-row justify-between gap-3">
+                    <div class="flex flex-col text-center w-6/12">
+                        <a href="/editProject/{{$index}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">edit</a>
+                    </div>
+                    <div class="flex flex-col text-center w-6/12">
+                        <a href="/delete-proj/{{$index}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">delete</a>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</body>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src="/public/js/navbar.js"></script>
+
+</html>

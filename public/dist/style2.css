@@ -1,0 +1,38 @@
+.downLogo{
+    width:25px;
+}
+
+.medLogo{
+    width:40px;
+}
+
+.prof-image{
+    border-radius: 10px 10px 0 0;
+}
+
+.card{
+    border-radius: 10px;
+}
+
+
+
+@media only screen and (max-width:639px){
+    .mobileNav{
+        transform: translateY(-250px);
+        transition: 500ms;
+    }
+
+    .mobileNav-active {
+    transform: translateY(0px);
+    }
+
+    .lalala{
+        margin-top: -100px;
+    }
+}
+
+@media onyly screen and (min-width: 768px){
+    .coba{
+        flex-direction: column;
+    }
+}

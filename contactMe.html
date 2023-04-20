@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<link rel="stylesheet" href="./css/index.css">
+<link rel="stylesheet" href="./css/navbar.css">
+
+<body>
+    <div class="index">
+        <nav class="navbar">
+            <div class="nav-left">
+                <ul>
+                    <img class="dumbLogo" src="./assets/logo.png" alt="logo">
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./myProject.html">My Project</a></li>
+                    <li><a href="./testimonial.html">Testimonial</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div>
+                    <a class="right active" href="./contactMe.html">Contact Me</a>
+                </div>
+                <div class="burger">
+                    <button id="button" href="" class="toggle-button">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="mobileNav shadow" id="mobileNav">
+            <a href="./index.html">Home</a>
+            <a href="./myProject.html">My Project</a>
+            <a href="./testimonial.html">Testimonial</a>
+            <a href="./contactMe.html" class="active">Contact Me</a>
+        </div>
+    </div>
+    
+    <div class="container-proj">
+        <center><h1>Contact Me</h1></center>
+        <form onsubmit="getBlog(event)">
+            <label for="">Name</label>
+            <input type="text" name="name" id="name" class="text-input shadow">
+            <label for="">Email</label>
+            <input type="text" name="email" id="email" class="text-input shadow">
+            <label for="">Phone Number</label>
+            <input type="text" name="phone" id="phone" class="text-input shadow">
+            <label for="">Sbuject</label>
+            <select name="subject" id="subject" class="text-input shadow">
+                <option value="Let's Talk">Let's Talk</option>
+                <option value="Let's Colaboration">Let's Colaboration</option>
+                <option value="I'm Hiring">I'm Hiring</option>
+            </select>
+            
+            <label for="">Message</label>
+            <textarea name="message" id="message" rows="5" class="text-input shadow"></textarea>
+            <div class="submit-area">
+                <button type="button" class="submit shadow" onclick="getData()">submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src="./js/navbar.js"></script>
+<script src="./js/scripts.js"></script>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<link rel="stylesheet" href="./css/index.css">
+<link rel="stylesheet" href="./css/navbar.css">
+<body onload="test()">
+    <div class="index">
+        <nav class="navbar">
+            <div class="nav-left">
+                <ul>
+                    <img class="dumbLogo" src="./assets/logo.png" alt="logo">
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./myProject.html" class="active">My Project</a></li>
+                    <li><a href="./testimonial.html">Testimonial</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div>
+                    <a class="right" href="./contactMe.html">Contact Me</a>
+                </div>
+                <div class="burger">
+                    <button id="button" href="" class="toggle-button">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="mobileNav shadow" id="mobileNav">
+            <a href="./index.html">Home</a>
+            <a href="./myProject.html" class="active">My Project</a>
+            <a href="./testimonial.html">Testimonial</a>
+            <a href="./contactMe.html">Contact Me</a>
+        </div>
+    </div>
+
+    
+    <div class="container-proj">
+        <center><h1>Add My Project</h1></center>
+        <form onsubmit="getBlog(event)">
+            <label for="">Title</label>
+            <input type="text" name="title" id="title" class="text-input shadow">
+            <div class="half">
+                <div>
+                    <label for="">Start Date</label>
+                    <input type="date" name="start" id="start" class="text-input shadow">
+                </div>
+                <div>
+                    <label for="">End Date</label>
+                    <input type="date" name="End" id="end" class="text-input shadow">
+                </div>
+            </div>
+            <label for="">Description</label>
+            <textarea name="description" id="description" rows="5" class="text-input shadow"></textarea>
+            <div class="tech-area">
+                <label for="">Technologies</label>
+                <div class="Tech">
+                    <div class="box-area">
+                        <input type="checkbox" name="react" id="nodeBox" class="box-input shadow">
+                        <label for="">Node</label>
+                    </div>
+                    <div class="box-area">
+                        <input type="checkbox" name="next" id="nextBox" class="box-input shadow">
+                        <label for="">Next</label>
+                    </div>
+                    <div class="box-area">
+                        <input type="checkbox" name="react" id="reactBox" class="box-input shadow">
+                        <label for="">React</label>
+                    </div>
+                    <div class="box-area">
+                        <input type="checkbox" name="react" id="typeBox" class="box-input shadow">
+                        <label for="">TypeScript</label>
+                    </div>
+                </div>
+            </div>
+            <label for="">Upload Image</label>
+            <input type="file" name="" id="img" class="text-input shadow" required>
+            <div class="submit-area">
+                <button type="submit" class="submit shadow">submit</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="container-my-proj">
+        <center><h1>My Project</h1></center>
+        <div class="card-area" id="content">
+            
+        </div>
+    </div>
+
+    
+    
+</body>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src="./js/navbar.js"></script>
+<script src="./js/myProject.js"></script>
+
+</html>

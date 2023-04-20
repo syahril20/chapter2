@@ -1,0 +1,429 @@
+.shadow {
+  box-shadow: 0 5px 15px rgb(190, 190, 190);
+}
+
+body {
+  margin: 0;
+  background-color: #e8e8e8;
+  font-family: Comic sans ms;
+  position: relative;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.container .box {
+  margin: 5%;
+  padding: 5%;
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+}
+.container .box .content {
+  display: flex;
+  align-items: center;
+}
+.container .box .content .content1 h1 {
+  font-size: 25px;
+}
+.container .box .content .content1 p {
+  font-size: 18px;
+  text-align: justify;
+}
+.container .box .content .content2 {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+.container .box .content .content2 .button {
+  background-color: black;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+  margin-right: 10px;
+}
+.container .box .content .content2 .button:hover {
+  background-color: rgb(133, 156, 255);
+  color: black;
+}
+.container .box .content .content2 .downLogo {
+  width: 25px;
+}
+.container .box .content .content3 {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.container .box .content .content3 .medLogo {
+  width: 45px;
+}
+.container .box .content .grid2 {
+  margin: 3%;
+  border-radius: 10px;
+  background-color: #e3e3e3;
+}
+.container .box .content .grid2 .content4 {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  text-align: center;
+}
+.container .box .content .grid2 .content4 .profile {
+  border-radius: 10px 10px 0 0;
+  width: 300px;
+}
+
+.container-proj {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.container-proj form {
+  font-size: 20px;
+  max-width: 30em;
+  margin: 5% 5%;
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.container-proj form .submit-area {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.container-proj form .submit-area .submit {
+  font-family: Comic Sans Ms;
+  border-radius: 20px;
+  padding: 5px 30px;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+.container-proj form .tech-area {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.container-proj form .tech-area .Tech {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+.container-proj form .tech-area .Tech .box-area {
+  margin: 10px;
+}
+.container-proj form .tech-area .Tech .box-input {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 10px;
+  vertical-align: middle;
+  -moz-appearance: none;
+       appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+.container-proj form .tech-area .Tech .box-input:checked {
+  background-color: gray;
+}
+.container-proj form .half {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 5px;
+}
+.container-proj form .text-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  font-family: Comic Sans Ms;
+  font-size: 20px;
+  resize: none;
+  margin-bottom: 20px;
+}
+
+.container-my-proj {
+  background-color: #cdcdcd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.container-my-proj .card-area {
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  margin: 0 5%;
+}
+.container-my-proj .card-area .card-box {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 1em 1em;
+  max-width: -moz-min-content;
+  max-width: min-content;
+  justify-content: space-between;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgb(101, 101, 101);
+}
+.container-my-proj .card-area .card-box .header {
+  display: flex;
+  flex-direction: column;
+}
+.container-my-proj .card-area .card-box .header img {
+  width: 300px;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 10px;
+}
+.container-my-proj .card-area .card-box .header a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  text-align: justify;
+}
+.container-my-proj .card-area .card-box .header label {
+  margin: 3px 0;
+  font-size: 12px;
+  color: #d0d0d0;
+}
+.container-my-proj .card-area .card-box .content {
+  display: flex;
+  text-align: justify;
+  font-size: 12px;
+  line-height: 2em;
+}
+.container-my-proj .card-area .card-box .footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.container-my-proj .card-area .card-box .footer .logo-area {
+  display: flex;
+  justify-content: space-evenly;
+}
+.container-my-proj .card-area .card-box .footer .logo-area .tech-logo {
+  width: 35px;
+}
+.container-my-proj .card-area .card-box .footer .button-area {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+}
+.container-my-proj .card-area .card-box .footer .button-area .foot-button {
+  gap: 10px;
+  padding: 5px 40px;
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+}
+
+.rate-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rate-area .rate-button {
+  color: white;
+  background-color: black;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+  border: none;
+  box-shadow: 0 5px 15px rgb(153, 153, 153);
+}
+.rate-area .star {
+  width: 20px;
+  position: relative;
+  bottom: 1px;
+}
+.rate-area .rate-button:hover {
+  background-color: #5c8fff;
+}
+.rate-area .all-area {
+  margin: 10px;
+}
+.rate-area .rating-area {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  gap: 15px;
+}
+
+.testBody {
+  margin: 5%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-flow: row wrap;
+}
+.testBody .card {
+  background-color: white;
+  border-radius: 10px;
+  margin: 20px;
+}
+.testBody .card .testiContent {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  max-width: -moz-min-content;
+  max-width: min-content;
+  justify-content: space-between;
+}
+.testBody .card .testiContent .testiImg {
+  width: 300px;
+  height: 200px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 10px;
+}
+.testBody .card .testiContent .quotes {
+  text-align: justify;
+  font-style: italic;
+}
+.testBody .card .testiContent .author {
+  display: flex;
+  justify-content: end;
+}
+.testBody .card .testiContent .rating {
+  display: flex;
+  justify-content: end;
+}
+.testBody .card .testiContent .star {
+  width: 20px;
+  position: relative;
+  bottom: 1px;
+}
+
+.container-detail {
+  margin: 5%;
+  padding: 1em;
+}
+.container-detail .header {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+.container-detail .header .imgContent {
+  width: 550px;
+  height: 350px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.container-detail .header .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 15px;
+}
+.container-detail .header .right .right-top {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+.container-detail .header .right .right-top .label-right {
+  font-size: 22px;
+  font-weight: bold;
+}
+.container-detail .header .right .right-top .mid {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+.container-detail .header .right .right-top .duration-logo {
+  width: 45px;
+  margin-right: 5px;
+}
+.container-detail .header .right .right-bot {
+  display: flex;
+  flex-direction: column;
+}
+.container-detail .header .right .right-bot .label-right {
+  font-size: 22px;
+  font-weight: bold;
+}
+.container-detail .header .right .right-bot .tech-area {
+  display: flex;
+  gap: 10px;
+  flex-flow: row wrap;
+}
+.container-detail .header .right .right-bot .tech-area .mid {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+.container-detail .header .right .right-bot .tech-area .tech-logo {
+  width: 45px;
+  margin-right: 5px;
+}
+.container-detail .isi {
+  text-align: justify;
+}
+
+@media screen and (max-width: 720px) {
+  .container .box .content {
+    flex-direction: column;
+  }
+  .container .box .content .content3 {
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 680px) {
+  .container {
+    margin: -250px 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .container-proj {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .container-proj form .submit-area {
+    justify-content: center;
+  }
+  .container-proj form .half {
+    flex-direction: column;
+  }
+  .container-my-proj {
+    margin-top: 250px;
+  }
+  .container-detail {
+    margin: -250px 5%;
+  }
+  .container-detail .header {
+    display: flex;
+    flex-flow: column;
+  }
+  .container-detail .header .imgContent {
+    width: 330px;
+    height: 200px;
+  }
+}/*# sourceMappingURL=index.css.map */

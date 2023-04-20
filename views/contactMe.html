@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/dist/output.css">
+    <link rel="stylesheet" href="/public/dist/style2.css">
+    <title>Document</title>
+</head>
+
+<body class="bg-gray-200" style="font-family: Comic sans ms;" >
+    
+    
+<div id="navbar" class="bg-gray-100 text-xl">
+    <nav class=" flex flex-row gap-4 mx-8 justify-between items-center relative">
+        <div id="nav-left" class="flex items-center">
+            <img src="/public/assets/logo.png" class="m-2 pr-2">
+            <div class="hidden flex-row items-center sm:flex">
+                <a href="/" class="p-3 hover:bg-blue-500 hover:text-white duration-500">Home</a>
+                <a href="/myProject" class="p-3 hover:bg-blue-500 hover:text-white duration-500">My Project</a>
+                <!-- <a href="./testimonial.html" class="p-3 hover:bg-blue-500 hover:text-white duration-500">Testimonial</a> -->
+            </div>
+        </div>
+        <div id="nav-right" class="flex p-2 gap-2"> 
+            <div class="hidden sm:flex">
+                <a href="/contactMe" class="bg-black text-white rounded-xl px-2 py-1 hover:bg-blue-500 hover:text-white duration-500">Contact Me</a>
+            </div>
+            <div id="burger" class="flex-col justify-center flex sm:hidden">
+                <button id="toggle-button" class="flex flex-col gap-1.5">
+                    <span class="h-1 w-7 bg-white rounded"></span>
+                    <span class="h-1 w-7 bg-white rounded"></span>
+                    <span class="h-1 w-7 bg-white rounded"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="nav-down" class="flex flex-col text-center justify-center bg-gray-300 mobileNav sm:hidden shadow-lg">
+    <a href="/" class="py-2 hover:bg-blue-500 hover:text-white duration-500">Home</a>
+    <a href="/myProject" class="py-2 hover:bg-blue-500 hover:text-white duration-500">My Project</a>
+    <!-- <a href="./testimonial.html" class="py-2 hhover:bg-blue-500 hover:text-white duration-500">Testimonial</a> -->
+    <a href="/contactMe" class="py-2 hover:bg-blue-500 hover:text-white duration-500">Contact Me</a>
+</div>
+
+<div class="main-content m-5 lalala">
+    <center><h1 class="text-3xl my-5">Add My Project</h1></center>
+    <form onsubmit="getBlog(event)" class="flex flex-col mx-10 gap-3 sm:gap-3 sm:mx-[20%] lg:mx-[30%]">
+        <label for="">Name</label>
+            <input type="text" name="name" id="name" class="shadow-lg p-1 rounded-lg">
+            <label for="">Email</label>
+            <input type="text" name="email" id="email" class="shadow-lg p-1 rounded-lg">
+            <label for="">Phone Number</label>
+            <input type="text" name="phone" id="phone" class="shadow-lg p-1 rounded-lg">
+            <label for="">Sbuject</label>
+            <select name="subject" id="subject" class="shadow-lg p-1 rounded-lg">
+                <option value="Let's Talk">Let's Talk</option>
+                <option value="Let's Colaboration">Let's Colaboration</option>
+                <option value="I'm Hiring">I'm Hiring</option>
+            </select>
+            
+            <label for="">Message</label>
+            <textarea name="message" id="message" rows="5" class="shadow-lg p-1 resize-none rounded-lg"></textarea>
+            <div class="submit-area">
+                <button type="button" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-blue-500 duration-500" onclick="getData()">submit</button>
+            </div>
+    </form>
+</div>
+
+
+
+</body>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src="/public/js/navbar.js"></script>
+<script src="/public/js/scripts.js"></script>
+<!-- <script src="../js/myProject.js"></script> -->
+</html>
