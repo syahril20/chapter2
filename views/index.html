@@ -110,7 +110,7 @@
                 <div id="header" class="text-justify flex flex-col">
                     <a href="/proj-detail/{{$index}}" class="text-base">{{$data.Title}}</a>
                     <label for="duration" class="text-sm text-slate-400">duration : {{$data.Duration}}</label>
-                    <label for="time" class="text-sm text-slate-400">3 min</label>
+                    <label for="time" class="text-sm text-slate-400">{{$data.Postdate}}</label>
                 </div>
                 <div id="desc" class="text-justify ">
                     <p class="text-sm">{{$data.Description}}</p>
@@ -131,10 +131,10 @@
                 </div>
                 <div id="button-area" class="flex flex-row justify-between gap-3">
                     <div class="flex flex-col text-center w-6/12">
-                        <a href="/editProject/{{$index}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">edit</a>
+                        <a href="/editProject/{{$data.Id}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">edit</a>
                     </div>
                     <div class="flex flex-col text-center w-6/12">
-                        <a href="/delete-proj/{{$index}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">delete</a>
+                        <a href="/delete-proj/{{.Id}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">delete</a>
                     </div>
                 </div>
             </div>
