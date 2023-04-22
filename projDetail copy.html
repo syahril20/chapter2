@@ -45,18 +45,18 @@
         <a href="/contactMe" class="py-2 hover:bg-blue-500 hover:text-white transition-all">Contact Me</a>
     </div>
 
-    <div id="content-area" class="lalala mt-5">
+    <div id="content-area" class="lalala mt-5" style="border:1px solid;">
         {{range .Project}}
         <center><b>
             <h1 class="text-xl my-10">{{.Title}}</h1>
         </b></center>
-        <div id="content" class="mx-10 flex flex-col">
+        <div id="content" class="mx-10 flex flex-col" style="border:1px solid;">
             <!-- Header -->
-            <div id="header" class="flex flex-col lg:flex-row xl:justify-between">
-                <div id="header-left" class=" flex flex-col lg:items-center lg:flex-row lg:w-[550px] lg:h-[350px]">
-                    <img src="/public/assets/content.png" alt="IMAGE" class="object-cover">
+            <div id="header" class="flex flex-col lg:flex-row">
+                <div id="header-left" class=" flex flex-col w-[450px] lg:justify-center lg:flex-row ">
+                    <img src="/public/assets/content.png" alt="" class="object-cover">
                 </div>
-                <div id="header-right" class="flex flex-col items-center lg:items-start lg:justify-center lg:ml-5">
+                <div id="header-right" class="flex flex-col items-center lg:items-start lg:flex">
                     <label for="duration" class="text-xl font-semibold">Duration</label>
                     <div id="right-top" class="items-center">
                         <div id="dur-content" class="flex items-center mt-5">
@@ -70,7 +70,7 @@
                     </div>
                     <label for="duration" class="text-xl font-semibold mt-5">Technologies</label>
                     <div id="right-bot">
-                        <div class="tech-area flex flex-wrap gap-3 justify-center lg:justify-start">
+                        <div class="tech-area flex flex-wrap gap-3 justify-center">
                             {{if .React}}
                             <div class="mid flex items-center my-4">
                                 <img src="/public/assets/react.png" alt="" class="tech-logo w-11 mr-2">
@@ -101,7 +101,8 @@
             </div>
             <!-- Header -->
             <div id="description" class="text-justify sm:mx-[20px] mt-5">
-                {{.Description}}
+                <!-- {{.Description}} -->
+                PARBOABOA - Tiobe merilis peringkat 10 bahasa pemograman paling populer di dunia untuk Oktober 2021. Dalam laporan bertajuk 'Tiobe Programming Community index', Phyton dinobatkan sebagai bahasa programming terpopuler di dunia saat ini
             </div>
         </div>
         {{end}}

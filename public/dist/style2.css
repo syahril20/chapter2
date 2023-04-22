@@ -14,7 +14,9 @@
     border-radius: 10px;
 }
 
-
+.label-proj{
+    background-color: black;
+}
 
 @media only screen and (max-width:639px){
     .mobileNav{
@@ -35,4 +37,6 @@
     .coba{
         flex-direction: column;
     }
+
+    
 }

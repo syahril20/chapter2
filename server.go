@@ -28,21 +28,21 @@ type Project struct {
 	Typescript  bool
 }
 
-var dataProj = []Project{
-	{
-		Img:         "/public/assets/content.png",
-		Title:       "Phyton Jadi Bahasa Pemrograman Terpopuler di Dunia, Ini Alasannya.",
-		Start:       "2023-04-17",
-		End:         "2025-05-17",
-		Duration:    "3 Bulan",
-		Postdate:    "16/04/2023",
-		Description: "PARBOABOA - Tiobe merilis peringkat 10 bahasa pemograman paling populer di dunia untuk Oktober 2021. Dalam laporan bertajuk 'Tiobe Programming Community index', Phyton dinobatkan sebagai bahasa programming terpopuler di dunia saat ini.",
-		React:       true,
-		Next:        true,
-		Node:        false,
-		Typescript:  true,
-	},
-}
+// var dataProj = []Project{
+// 	{
+// 		Img:         "/public/assets/content.png",
+// 		Title:       "Phyton Jadi Bahasa Pemrograman Terpopuler di Dunia, Ini Alasannya.",
+// 		Start:       "2023-04-17",
+// 		End:         "2025-05-17",
+// 		Duration:    "3 Bulan",
+// 		Postdate:    "16/04/2023",
+// 		Description: "PARBOABOA - Tiobe merilis peringkat 10 bahasa pemograman paling populer di dunia untuk Oktober 2021. Dalam laporan bertajuk 'Tiobe Programming Community index', Phyton dinobatkan sebagai bahasa programming terpopuler di dunia saat ini.",
+// 		React:       true,
+// 		Next:        true,
+// 		Node:        false,
+// 		Typescript:  true,
+// 	},
+// }
 
 func main() {
 	connection.DatabaseConnect()
@@ -58,7 +58,7 @@ func main() {
 	e.GET("/delete-proj/:id", deleteProj)
 
 	// Server
-	e.Logger.Fatal(e.Start("localhost:4000"))
+	e.Logger.Fatal(e.Start("localhost:2000"))
 }
 
 func index(c echo.Context) error {
@@ -123,7 +123,7 @@ func createDuration(start string, end string) string {
 }
 
 func addProj(c echo.Context) error {
-	img := c.FormValue("img")
+	img := "/public/assets/content.png"
 	title := c.FormValue("title")
 	start := c.FormValue("start")
 	end := c.FormValue("end")
@@ -176,7 +176,7 @@ func editProject(c echo.Context) error {
 
 func updateProj(c echo.Context) error {
 	id := c.Param("id")
-	img := c.FormValue("img")
+	img := "/public/assets/content.png"
 	title := c.FormValue("title")
 	start := c.FormValue("start")
 	end := c.FormValue("end")
