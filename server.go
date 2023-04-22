@@ -66,11 +66,11 @@ func index(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
-	data, _ := connection.Conn.Query(context.Background(), "SELECT img, title, duration, postDate, description, react, next, node, typescript FROM tb_project")
+	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, duration, postDate, description, react, next, node, typescript FROM tb_project")
 	var result []Project
 	for data.Next() {
 		var p = Project{}
-		err := data.Scan(&p.Img, &p.Title, &p.Duration, &p.Postdate, &p.Description, &p.React, &p.Next, &p.Node, &p.Typescript)
+		err := data.Scan(&p.Id, &p.Img, &p.Title, &p.Duration, &p.Postdate, &p.Description, &p.React, &p.Next, &p.Node, &p.Typescript)
 		if err != nil {
 			fmt.Println(err.Error())
 			return c.JSON(http.StatusInternalServerError, map[string]string{"massage": err.Error()})
@@ -81,7 +81,7 @@ func index(c echo.Context) error {
 	Proj := map[string]interface{}{
 		"Project": result,
 	}
-
+	fmt.Println(Proj)
 	return tmpl.Execute(c.Response(), Proj)
 }
 
@@ -135,7 +135,7 @@ func addProj(c echo.Context) error {
 	node := c.FormValue("nodeBox") == "on"
 	typescript := c.FormValue("typeBox") == "on"
 
-	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project (img, title, start, stop, duration, postdate,description, react, next, node, typescript) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", img, title, start, end, duration, postdate, description, react, next, node, typescript)
+	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project ( img, title, start, stop, duration, postdate,description, react, next, node, typescript) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", img, title, start, end, duration, postdate, description, react, next, node, typescript)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
@@ -146,104 +146,91 @@ func addProj(c echo.Context) error {
 }
 
 func editProject(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id := c.Param("id")
 
 	tmpl, err := template.ParseFiles("views/editProject.html")
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
 
-	var projData = Project{}
-	for index, data := range dataProj {
-		if id == index {
-			projData = Project{
-				Id:          id,
-				Img:         data.Img,
-				Title:       data.Title,
-				Start:       data.Start,
-				End:         data.End,
-				Duration:    data.Duration,
-				Postdate:    data.Postdate,
-				Description: data.Description,
-				React:       data.React,
-				Next:        data.Next,
-				Node:        data.Node,
-				Typescript:  data.Typescript,
-			}
+	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, start, stop,duration,postDate, description, react, next, node, typescript FROM tb_project where id_project = $1", id)
+	var result []Project
+	// var Prok = Project{}
+	for data.Next() {
+		var p = Project{}
+		err := data.Scan(&p.Id, &p.Img, &p.Title, &p.Start, &p.End, &p.Duration, &p.Postdate, &p.Description, &p.React, &p.Next, &p.Node, &p.Typescript)
+		if err != nil {
+			fmt.Println(err.Error())
+			return c.JSON(http.StatusInternalServerError, map[string]string{"massage": err.Error()})
 		}
+		result = append(result, p)
 	}
 
-	data := map[string]interface{}{
-		"Project": projData,
+	Proj := map[string]interface{}{
+		"Project": result,
 	}
+	fmt.Println(Proj)
 
-	return tmpl.Execute(c.Response(), data)
+	return tmpl.Execute(c.Response(), Proj)
 }
 
 func updateProj(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id := c.Param("id")
 	img := c.FormValue("img")
 	title := c.FormValue("title")
 	start := c.FormValue("start")
 	end := c.FormValue("end")
 	duration := createDuration(start, end)
+	postdate := time.Now().Format("02/01/2006")
 	description := c.FormValue("description")
 	node := c.FormValue("nodeBox") == "on"
 	next := c.FormValue("nextBox") == "on"
 	react := c.FormValue("reactBox") == "on"
 	typescript := c.FormValue("typeBox") == "on"
 
-	dataProj[id].Img = img
-	dataProj[id].Title = title
-	dataProj[id].Start = start
-	dataProj[id].End = end
-	dataProj[id].Duration = duration
-	dataProj[id].Postdate = time.Now().Format("02/01/2006")
-	dataProj[id].Description = description
-	dataProj[id].Node = node
-	dataProj[id].Next = next
-	dataProj[id].React = react
-	dataProj[id].Typescript = typescript
+	_, err := connection.Conn.Exec(context.Background(), "UPDATE tb_project	SET img=$1, title=$2, start=$3, stop=$4, description=$5, react=$6, next=$7, node=$8, typescript=$9, duration=$10, postdate=$11	WHERE id_project=$12;", img, title, start, end, description, react, next, node, typescript, duration, postdate, id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
+	}
 
+	// Return success response
 	return c.Redirect(http.StatusMovedPermanently, "/")
 }
 
 func projDetail(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id := c.Param("id")
 
 	tmpl, err := template.ParseFiles("views/projDetail.html")
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
 
-	var projData = Project{}
-	for index, data := range dataProj {
-		if id == index {
-			projData = Project{
-				Img:         data.Img,
-				Title:       data.Title,
-				Duration:    data.Duration,
-				Postdate:    data.Postdate,
-				Description: data.Description,
-				React:       data.React,
-				Next:        data.Next,
-				Node:        data.Node,
-				Typescript:  data.Typescript,
-			}
+	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, start, stop,duration,postDate, description, react, next, node, typescript FROM tb_project where id_project = $1", id)
+	var result []Project
+	// var Prok = Project{}
+	for data.Next() {
+		var p = Project{}
+		err := data.Scan(&p.Id, &p.Img, &p.Title, &p.Start, &p.End, &p.Duration, &p.Postdate, &p.Description, &p.React, &p.Next, &p.Node, &p.Typescript)
+		if err != nil {
+			fmt.Println(err.Error())
+			return c.JSON(http.StatusInternalServerError, map[string]string{"massage": err.Error()})
 		}
+		result = append(result, p)
 	}
 
-	data := map[string]interface{}{
-		"Project": projData,
+	Proj := map[string]interface{}{
+		"Project": result,
 	}
+	fmt.Println(Proj)
 
-	return tmpl.Execute(c.Response(), data)
+	return tmpl.Execute(c.Response(), Proj)
 }
 
 func deleteProj(c echo.Context) error {
-	id, _ := connection.Conn.Exec(context.Background(), "id_project")
+	id, _ := strconv.Atoi(c.Param("id"))
 
 	_, err := connection.Conn.Exec(context.Background(), "DELETE FROM tb_project WHERE id_project=$1", id)
+	// dataProj = append(dataProj[:id], dataProj[id+1:]...)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 	}
