@@ -11,7 +11,7 @@ import (
 var Conn *pgx.Conn
 
 func DatabaseConnect() {
-	databaseUrl := "postgresql://postgres:123456@localhost:5432/project"
+	databaseUrl := "postgresql://postgres:123456@localhost:5432/testDB"
 
 	var err error
 	Conn, err = pgx.Connect(context.Background(), databaseUrl)

@@ -5,27 +5,26 @@ import (
 	"example/hello/connection"
 	"fmt"
 	"html/template"
+	"log"
 	"math"
 	"net/http"
 	"strconv"
 	"time"
 
+	"github.com/jackc/pgtype"
 	"github.com/labstack/echo/v4"
 )
 
 type Project struct {
-	Id          int
-	Img         string
-	Title       string
-	Start       string
-	End         string
-	Duration    string
-	Postdate    string
-	Description string
-	React       bool
-	Next        bool
-	Node        bool
-	Typescript  bool
+	Id           int
+	Img          string
+	Title        string
+	Start        string
+	End          string
+	Duration     string
+	Postdate     string
+	Description  string
+	Technologies []bool
 }
 
 // var dataProj = []Project{
@@ -58,30 +57,63 @@ func main() {
 	e.GET("/delete-proj/:id", deleteProj)
 
 	// Server
-	e.Logger.Fatal(e.Start("localhost:2000"))
+	e.Logger.Fatal(e.Start("localhost:2001"))
 }
+
+var node string
+var next string
+var react string
+var typescript string
 
 func index(c echo.Context) error {
 	tmpl, err := template.ParseFiles("views/index.html")
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
-	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, duration, postDate, description, react, next, node, typescript FROM tb_project")
-	var result []Project
+
+	data, _ := connection.Conn.Query(context.Background(), "SELECT id_project, img, title, duration, postDate, description, technologies FROM tb_project")
+	result := []Project{}
+
 	for data.Next() {
 		var p = Project{}
-		err := data.Scan(&p.Id, &p.Img, &p.Title, &p.Duration, &p.Postdate, &p.Description, &p.React, &p.Next, &p.Node, &p.Typescript)
-		if err != nil {
-			fmt.Println(err.Error())
-			return c.JSON(http.StatusInternalServerError, map[string]string{"massage": err.Error()})
-		}
-		result = append(result, p)
-	}
+		var techArray pgtype.VarcharArray
 
+		err := data.Scan(
+			&p.Id,
+			&p.Img,
+			&p.Title,
+			&p.Duration,
+			&p.Postdate,
+			&p.Description,
+			&techArray,
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		p.Technologies = make([]bool, len(techArray.Elements))
+		for i, el := range techArray.Elements {
+			if el.String == "node" {
+				p.Technologies[i] = true
+			} else if el.String == "next" {
+				p.Technologies[i] = true
+			} else if el.String == "react" {
+				p.Technologies[i] = true
+			} else if el.String == "typescript" {
+				p.Technologies[i] = true
+			} else {
+				p.Technologies[i] = false
+			}
+		}
+
+		result = append(result, p)
+
+	}
 	Proj := map[string]interface{}{
 		"Project": result,
 	}
-	fmt.Println(Proj)
+
+	fmt.Println(result)
 	return tmpl.Execute(c.Response(), Proj)
 }
 
@@ -123,19 +155,45 @@ func createDuration(start string, end string) string {
 }
 
 func addProj(c echo.Context) error {
+	layout := ("2006-01-02")
 	img := "/public/assets/content.png"
 	title := c.FormValue("title")
 	start := c.FormValue("start")
 	end := c.FormValue("end")
 	duration := createDuration(start, end)
-	postdate := time.Now().Format("02/01/2006")
+	postdate := time.Now().Format(layout)
 	description := c.FormValue("description")
-	react := c.FormValue("reactBox") == "on"
-	next := c.FormValue("nextBox") == "on"
-	node := c.FormValue("nodeBox") == "on"
-	typescript := c.FormValue("typeBox") == "on"
+	if c.FormValue("nodeBox") == "on" {
+		node = "node"
+	} else {
+		node = "fNode"
+	}
+	if c.FormValue("nextBox") == "on" {
+		next = "next"
+	} else {
+		next = "fNext"
+	}
+	if c.FormValue("reactBox") == "on" {
+		react = "react"
+	} else {
+		react = "fReact"
+	}
+	if c.FormValue("typeBox") == "on" {
+		typescript = "typescript"
+	} else {
+		typescript = "fTypescript"
+	}
 
-	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project ( img, title, start, stop, duration, postdate,description, react, next, node, typescript) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", img, title, start, end, duration, postdate, description, react, next, node, typescript)
+	technologies := []string{
+		node,
+		next,
+		react,
+		typescript,
+	}
+
+	fmt.Println(technologies)
+
+	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project ( img, title, start, stop, duration, postdate,description, technologies) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", img, title, start, end, duration, postdate, description, technologies)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
@@ -153,12 +211,37 @@ func editProject(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
 
-	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, start, stop,duration,postDate, description, react, next, node, typescript FROM tb_project where id_project = $1", id)
+	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, start, stop,duration,postDate, description, technologies FROM tb_project where id_project = $1", id)
 	var result []Project
 	// var Prok = Project{}
 	for data.Next() {
 		var p = Project{}
-		err := data.Scan(&p.Id, &p.Img, &p.Title, &p.Start, &p.End, &p.Duration, &p.Postdate, &p.Description, &p.React, &p.Next, &p.Node, &p.Typescript)
+		var techArray pgtype.VarcharArray
+		err := data.Scan(
+			&p.Id,
+			&p.Img,
+			&p.Title,
+			&p.Start,
+			&p.End,
+			&p.Duration,
+			&p.Postdate,
+			&p.Description,
+			&techArray,
+		)
+		p.Technologies = make([]bool, len(techArray.Elements))
+		for i, el := range techArray.Elements {
+			if el.String == "node" {
+				p.Technologies[i] = true
+			} else if el.String == "next" {
+				p.Technologies[i] = true
+			} else if el.String == "react" {
+				p.Technologies[i] = true
+			} else if el.String == "typescript" {
+				p.Technologies[i] = true
+			} else {
+				p.Technologies[i] = false
+			}
+		}
 		if err != nil {
 			fmt.Println(err.Error())
 			return c.JSON(http.StatusInternalServerError, map[string]string{"massage": err.Error()})
@@ -181,14 +264,37 @@ func updateProj(c echo.Context) error {
 	start := c.FormValue("start")
 	end := c.FormValue("end")
 	duration := createDuration(start, end)
-	postdate := time.Now().Format("02/01/2006")
+	postdate := time.Now().Format("2006-01-02")
 	description := c.FormValue("description")
-	node := c.FormValue("nodeBox") == "on"
-	next := c.FormValue("nextBox") == "on"
-	react := c.FormValue("reactBox") == "on"
-	typescript := c.FormValue("typeBox") == "on"
+	if c.FormValue("nodeBox") == "on" {
+		node = "node"
+	} else {
+		node = "fNode"
+	}
+	if c.FormValue("nextBox") == "on" {
+		next = "next"
+	} else {
+		next = "fNext"
+	}
+	if c.FormValue("reactBox") == "on" {
+		react = "react"
+	} else {
+		react = "fReact"
+	}
+	if c.FormValue("typeBox") == "on" {
+		typescript = "typescript"
+	} else {
+		typescript = "fTypescript"
+	}
 
-	_, err := connection.Conn.Exec(context.Background(), "UPDATE tb_project	SET img=$1, title=$2, start=$3, stop=$4, description=$5, react=$6, next=$7, node=$8, typescript=$9, duration=$10, postdate=$11	WHERE id_project=$12;", img, title, start, end, description, react, next, node, typescript, duration, postdate, id)
+	technologies := []string{
+		node,
+		next,
+		react,
+		typescript,
+	}
+
+	_, err := connection.Conn.Exec(context.Background(), "UPDATE tb_project	SET img=$1, title=$2, start=$3, stop=$4, description=$5, duration=$6, postdate=$7, technologies=$8	WHERE id_project=$9;", img, title, start, end, description, duration, postdate, technologies, id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 	}
@@ -205,12 +311,37 @@ func projDetail(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
 
-	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, start, stop,duration,postDate, description, react, next, node, typescript FROM tb_project where id_project = $1", id)
+	var data, _ = connection.Conn.Query(context.Background(), "SELECT id_project, img, title, start, stop, postdate, description, technologies FROM tb_project where id_project = $1", id)
 	var result []Project
-	// var Prok = Project{}
 	for data.Next() {
 		var p = Project{}
-		err := data.Scan(&p.Id, &p.Img, &p.Title, &p.Start, &p.End, &p.Duration, &p.Postdate, &p.Description, &p.React, &p.Next, &p.Node, &p.Typescript)
+		var techArray pgtype.VarcharArray
+
+		err := data.Scan(
+			&p.Id,
+			&p.Img,
+			&p.Title,
+			&p.Start,
+			&p.End,
+			&p.Postdate,
+			&p.Description,
+			&techArray,
+		)
+
+		p.Technologies = make([]bool, len(techArray.Elements))
+		for i, el := range techArray.Elements {
+			if el.String == "node" {
+				p.Technologies[i] = true
+			} else if el.String == "next" {
+				p.Technologies[i] = true
+			} else if el.String == "react" {
+				p.Technologies[i] = true
+			} else if el.String == "typescript" {
+				p.Technologies[i] = true
+			} else {
+				p.Technologies[i] = false
+			}
+		}
 		if err != nil {
 			fmt.Println(err.Error())
 			return c.JSON(http.StatusInternalServerError, map[string]string{"massage": err.Error()})
@@ -230,7 +361,6 @@ func deleteProj(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	_, err := connection.Conn.Exec(context.Background(), "DELETE FROM tb_project WHERE id_project=$1", id)
-	// dataProj = append(dataProj[:id], dataProj[id+1:]...)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 	}

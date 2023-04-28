@@ -71,19 +71,19 @@
             <label for="">Technologies</label>
             <div class="Tech flex gap-5 flex-wrap">
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" name="nodeBox" id="nodeBox" class="shadow-lg w-[20px] h-[20px]" {{if .Node}}checked{{end}}>
+                    <input type="checkbox" name="nodeBox" id="nodeBox" class="shadow-lg w-[20px] h-[20px]" {{if index .Technologies 0}}checked{{end}}>
                     <label for="">Node</label>
                 </div>
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" name="nextBox" id="nextBox" class="shadow-lg w-[20px] h-[20px]" {{if .Next}}checked{{end}}>
+                    <input type="checkbox" name="nextBox" id="nextBox" class="shadow-lg w-[20px] h-[20px]" {{if index .Technologies 1}}checked{{end}}>
                     <label for="">Next</label>
                 </div>
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" name="reactBox" id="reactBox" class="shadow-lg w-[20px] h-[20px]" {{if .React}}checked{{end}}>
+                    <input type="checkbox" name="reactBox" id="reactBox" class="shadow-lg w-[20px] h-[20px]" {{if index .Technologies 2}}checked{{end}}>
                     <label for="">React</label>
                 </div>
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" name="typeBox" id="typeBox" class="shadow-lg w-[20px] h-[20px]" {{if .Typescript}}checked{{end}}>
+                    <input type="checkbox" name="typeBox" id="typeBox" class="shadow-lg w-[20px] h-[20px]" {{if index .Technologies 3}}checked{{end}}>
                     <label for="">TypeScript</label>
                 </div>
             </div>
