@@ -7,7 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/dist/output.css">
     <link rel="stylesheet" href="/public/dist/style2.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+
     <title>Document</title>
+
+    <style>
+        .yaya{
+            transition-duration: 1s;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-200" style="font-family: Comic sans ms;">
@@ -37,6 +45,7 @@
             </div>
         </nav>
     </div>
+
     <div id="nav-down" class="mobileNav flex flex-col text-center justify-center bg-gray-300  sm:hidden shadow-lg">
         <a href="/" class="py-2 hover:bg-blue-500 hover:text-white transition-all">Home</a>
         <a href="/myProject" class="py-2 hover:bg-blue-500 hover:text-white transition-all">My Project</a>
@@ -66,7 +75,7 @@
                             </a>
                         </div>
                     </div>
-                    <div id="content3" class="flex justify-center gap-3 lg:justify-start">
+                    <div id="content3" class="flex md:justify-start gap-3 lg:justify-start">
                         <a href="https://www.linkedin.com/in/syahril-ramadhan-410385250/">
                             <img src="/public/assets/linkedin.png" class="medLogo" alt="">
                         </a>
@@ -81,10 +90,11 @@
                         </a>
                     </div>
                 </div>
-                <div id="right-content" class="mb-7 lg:m-7 " style="border: solid black;">
+                <div id="right-content" class="mb-7 lg:m-7 ">
                     <div class="card text-center shadow-lg bg-slate-200 pb-[20px]">
                         <div>
-                            <img src="/public/assets/profile.jpg" alt="" class="w-60 lg:w-[2000px] prof-image">
+                            <img src="/public/assets/profile.jpg" alt=""
+                                class="w-[300px]  md:w-[350px] lg:w-[2000px] xl:w-[1500px] prof-image">
                         </div>
                         <div class="" style="padding-top: 20px;">
                             <p>Syahril Ramadhan</p>
@@ -95,28 +105,128 @@
             </div>
         </div>
     </div>
+
     
 
- 
     <div id="container" class="bg-gray-100 flex flex-col">
         <center>
             <h1 class="text-3xl my-10">My Project</h1>
         </center>
-        <div id="card-area " class="flex flex-row justify-center m-4 flex-wrap ">
-            {{range .Project}}
+        <div id="card-area " class="flex flex-row justify-center m-4 flex-wrap">
+            {{ range $index, $data := .Project }}
             <div id="box" class="p-3 w-80 bg-white rounded-lg flex flex-col justify-between gap-4 shadow-lg m-3">
+                <!-- IMAGE -->
                 <div>
                     <img src="{{.Img}}" alt="" class="w-80 h-80 rounded-lg object-cover">
                 </div>
-                
+                <!-- IMAGE -->
+
+                <!-- MODALS DETAIL BUTTON -->
+                <button data-modal-target="staticModal{{$data.Id}}" data-modal-toggle="staticModal{{$data.Id}}"
+                    class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500" type="button">
+                    Detail
+                </button>
+                <!-- MODALS DETAIL BUTTON -->
+
+                <!-- MODALS DETAIL -->
+                <div id="staticModal{{$data.Id}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+                    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
+                    <div class="relative w-full max-w-5xl max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-gray-100 rounded-lg shadow dark:bg-gray-700">
+                            <!-- Modal header -->
+                            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Detail Content
+                                </h3>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="p-6 space-y-6">
+                                <div class="grid lg:grid-rows-4 lg:grid-flow-col gap-4">
+                                    <div class="row-span-3 ">
+                                        <img src="{{.Img}}" alt="" class="object-cover h-full w-full">
+                                    </div>
+                                    <div class=" md:col-span-1 text-center bg-yellow-100">
+                                        <label for="duration"
+                                            class="text-xl font-semibold leading-relaxed text-gray-900 dark:text-gray-400">{{.Title}}</label>
+                                    </div>
+                                    <div class="md:row-span-2 bg-yellow-100">
+                                        <div class=" text-center bg-yellow-200">
+                                            <label for="duration" class="text-xl font-semibold">Duration</label>
+                                        </div>
+                                        <div id="dur-content" class="flex items-center mt-5 mx-2">
+                                            <img src="/public/assets/calendar.png" alt="logo"
+                                                class="duration-logo w-11 mr-2">
+                                            <label for="duration" class="">{{.Start}} - {{.End}}</label>
+                                        </div>
+                                        <div id="dur-content" class="flex items-center mt-5 mx-2">
+                                            <img src="/public/assets/clock.png" alt="logo"
+                                                class="duration-logo w-11 mr-2">
+                                            <label for="duration" class="">{{.Postdate}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="md:row-span-2 bg-yellow-100">
+                                        <div class=" text-center bg-yellow-200">
+                                            <label for="duration" class="text-xl font-semibold">Technologies</label>
+                                        </div>
+                                        <div class="tech-area flex flex-wrap gap-3 lg:justify-start mx-2">
+                                            {{if index .Technologies 0}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/react.png" alt="" class="tech-logo w-11 mr-2">
+                                                <label for="nodeCheckbox">React Js</label>
+                                            </div>
+                                            {{end}}
+                                            {{if index .Technologies 1}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/next.png" alt="" class="tech-logo w-11 mr-2">
+                                                <label for="nextCheckbox">Next Js</label>
+                                            </div>
+                                            {{end}}
+                                            {{if index .Technologies 2}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/node.png" alt="" class="tech-logo w-11 mr-2">
+                                                <label for="reactCheckbox">Node Js</label>
+                                            </div>
+                                            {{end}}
+                                            {{if index .Technologies 3}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/typescript.png" alt=""
+                                                    class="tech-logo w-11 mr-2">
+                                                <label for="typescriptCheckbox">TypeScript</label>
+                                            </div>
+                                            {{end}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                    {{.Description}}
+                                </p>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="flex p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                <button data-modal-hide="staticModal{{$data.Id}}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODALS DETAIL -->
+
+                <!-- HEADER -->
                 <div id="header" class="text-justify flex flex-col">
                     <a href="/proj-detail/{{.Id}}" class="text-base">{{.Title}}</a>
                     <label for="duration" class="text-sm text-slate-400">duration : {{.Duration}}</label>
                     <label for="time" class="text-sm text-slate-400">{{.Postdate}}</label>
                 </div>
+                <!-- HEADER -->
+                <!-- CONTENT -->
                 <div id="desc" class="text-justify ">
-                    <p class="text-sm">{{.Description}}</p>
+                    <p class="text-sm" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 40rem;">{{.Description}}</p>
                 </div>
+                <!-- CONTENT -->
+                <!-- AREA LOGO -->
                 <div id="logo-area" class="flex gap-3">
                     {{if index .Technologies 0}}
                     <img src="/public/assets/node.png" alt="" class="w-[35px]">
@@ -130,17 +240,56 @@
                     {{if index .Technologies 3}}
                     <img src="/public/assets/typescript.png" alt="" class="w-[35px]">
                     {{end}}
-
                 </div>
+                <!-- AREA LOGO -->
+                <!-- AREA BUTTON -->
                 <div id="button-area" class="flex flex-row justify-between gap-3">
                     <div class="flex flex-col text-center w-6/12">
-                        <a href="/editProject/{{.Id}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">edit</a>
+                        <a href="/editProject/{{.Id}}"
+                            class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">edit</a>
                     </div>
                     <div class="flex flex-col text-center w-6/12">
-                        <a href="/delete-proj/{{.Id}}" class="text-white bg-black px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">delete</a>
+                        <button data-modal-target="Delete{{$data.Id}}" data-modal-toggle="Delete{{$data.Id}}"
+                            class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500"
+                            type="button">
+                            Delete
+                        </button>
+                    </div>
+                    <div id="Delete{{$data.Id}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+                        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative w-full max-w-xs max-h-full">
+                            <!-- Modal content -->
+                            <div class="relative bg-gray-100 rounded-lg shadow dark:bg-gray-700">
+                                <!-- Modal header -->
+                                <div
+                                    class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        Delete Alert
+                                    </h3>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="p-6 space-y-6">
+                                    Yakin mau dihapus?
+                                </div>
+                                <!-- Modal footer -->
+                                <div
+                                    class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                    <a type="button" href="/delete-proj/{{.Id}}"
+                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
+                                        accept</a>
+                                    <button data-modal-hide="Delete{{$data.Id}}" type="button"
+                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                        Cancel
+                                    </button>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- AREA BUTTON -->
             </div>
+            
             {{end}}
         </div>
     </div>
@@ -148,5 +297,6 @@
 </body>
 <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
 <script src="/public/js/navbar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 
 </html>

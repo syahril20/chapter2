@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/dist/output.css">
     <link rel="stylesheet" href="/public/dist/style2.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <title>Home</title>
 </head>
 
@@ -45,62 +46,67 @@
 
     <div id="content-area" class="lalala mt-5">
         {{range .Project}}
-        <center><b>
-            <h1 class="text-xl my-10">{{.Title}}</h1>
-        </b></center>
-        <div id="content" class="mx-10 flex flex-col">
-            <!-- Header -->
-            <div id="header" class="flex flex-col lg:flex-row xl:justify-between">
-                <div id="header-left" class=" flex flex-col lg:items-center lg:flex-row lg:w-[550px] lg:h-[350px]">
-                    <img src="/public/assets/content.png" alt="IMAGE" class="object-cover">
+        <div class="p-6 space-y-6">
+            <div class="grid lg:grid-rows-4 lg:grid-flow-col gap-4">
+                <div class="row-span-3 ">
+                    <img src="{{.Img}}" alt="" class="object-cover h-full w-full">
                 </div>
-                <div id="header-right" class="flex flex-col items-center lg:items-start lg:justify-center lg:ml-5">
-                    <label for="duration" class="text-xl font-semibold">Duration</label>
-                    <div id="right-top" class="items-center">
-                        <div id="dur-content" class="flex items-center mt-5">
-                            <img src="/public/assets/calendar.png" alt="logo" class="duration-logo w-11 mr-2">
-                            <label for="duration" class="">{{.Start}} - {{.End}}</label>
-                        </div>
-                        <div id="dur-content" class="flex items-center mt-5">
-                            <img src="/public/assets/clock.png" alt="logo" class="duration-logo w-11 mr-2">
-                            <label for="duration" class="">{{.Postdate}}</label>
-                        </div>
+                <div class=" col-span-1 text-center bg-yellow-100">
+                    <label for="duration"
+                        class="text-xl font-semibold leading-relaxed text-gray-900 dark:text-gray-400">{{.Title}}</label>
+                </div>
+                <div class="row-span-2 bg-yellow-100">
+                    <div class=" text-center bg-yellow-200">
+                        <label for="duration" class="text-xl font-semibold">Duration</label>
                     </div>
-                    <label for="duration" class="text-xl font-semibold mt-5">Technologies</label>
-                    <div id="right-bot">
-                        <div class="tech-area flex flex-wrap gap-3 justify-center lg:justify-start">
-                            {{if index .Technologies 0}}
-                            <div class="mid flex items-center my-4">
-                                <img src="/public/assets/react.png" alt="" class="tech-logo w-11 mr-2">
-                                <label for="nodeCheckbox">React Js</label>
-                            </div>
-                            {{end}}
-                            {{if index .Technologies 1}}
-                            <div class="mid flex items-center my-4">
-                                <img src="/public/assets/next.png" alt="" class="tech-logo w-11 mr-2">
-                                <label for="nextCheckbox">Next Js</label>
-                            </div> 
-                            {{end}}
-                            {{if index .Technologies 2}}
-                            <div class="mid flex items-center my-4">
-                                <img src="/public/assets/node.png" alt="" class="tech-logo w-11 mr-2">
-                                <label for="reactCheckbox">Node Js</label>
-                            </div>
-                            {{end}}
-                            {{if index .Technologies 3}}
-                            <div class="mid flex items-center my-4">
-                                <img src="/public/assets/typescript.png" alt="" class="tech-logo w-11 mr-2">
-                                <label for="typescriptCheckbox">TypeScript</label>
-                            </div>
-                            {{end}}
+                    <div id="dur-content" class="flex items-center mt-5 mx-2">
+                        <img src="/public/assets/calendar.png" alt="logo"
+                            class="duration-logo w-11 mr-2">
+                        <label for="duration" class="">{{.Start}} - {{.End}}</label>
+                    </div>
+                    <div id="dur-content" class="flex items-center mt-5 mx-2">
+                        <img src="/public/assets/clock.png" alt="logo"
+                            class="duration-logo w-11 mr-2">
+                        <label for="duration" class="">{{.Postdate}}</label>
+                    </div>
+                </div>
+                <div class="md:row-span-2 bg-yellow-100">
+                    <div class=" text-center bg-yellow-200">
+                        <label for="duration" class="text-xl font-semibold">Technologies</label>
+                    </div>
+                    <div class="tech-area flex flex-wrap gap-3 lg:justify-start mx-2">
+                        {{if index .Technologies 0}}
+                        <div class="mid flex items-center my-4">
+                            <img src="/public/assets/react.png" alt="" class="tech-logo w-11 mr-2">
+                            <label for="nodeCheckbox">React Js</label>
                         </div>
+                        {{end}}
+                        {{if index .Technologies 1}}
+                        <div class="mid flex items-center my-4">
+                            <img src="/public/assets/next.png" alt="" class="tech-logo w-11 mr-2">
+                            <label for="nextCheckbox">Next Js</label>
+                        </div>
+                        {{end}}
+                        {{if index .Technologies 2}}
+                        <div class="mid flex items-center my-4">
+                            <img src="/public/assets/node.png" alt="" class="tech-logo w-11 mr-2">
+                            <label for="reactCheckbox">Node Js</label>
+                        </div>
+                        {{end}}
+                        {{if index .Technologies 3}}
+                        <div class="mid flex items-center my-4">
+                            <img src="/public/assets/typescript.png" alt=""
+                                class="tech-logo w-11 mr-2">
+                            <label for="typescriptCheckbox">TypeScript</label>
+                        </div>
+                        {{end}}
                     </div>
                 </div>
             </div>
-            <!-- Header -->
-            <div id="description" class="text-justify sm:mx-[20px] mt-5">
+
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                 {{.Description}}
-            </div>
+            </p>
         </div>
         {{end}}
     </div>

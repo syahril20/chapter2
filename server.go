@@ -57,7 +57,7 @@ func main() {
 	e.GET("/delete-proj/:id", deleteProj)
 
 	// Server
-	e.Logger.Fatal(e.Start("localhost:2001"))
+	e.Logger.Fatal(e.Start("localhost:2009"))
 }
 
 var node string
@@ -71,7 +71,7 @@ func index(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
 
-	data, _ := connection.Conn.Query(context.Background(), "SELECT id_project, img, title, duration, postDate, description, technologies FROM tb_project")
+	data, _ := connection.Conn.Query(context.Background(), "SELECT id_project, img, title, start, stop, duration, postDate, description, technologies FROM tb_project")
 	result := []Project{}
 
 	for data.Next() {
@@ -82,6 +82,8 @@ func index(c echo.Context) error {
 			&p.Id,
 			&p.Img,
 			&p.Title,
+			&p.Start,
+			&p.End,
 			&p.Duration,
 			&p.Postdate,
 			&p.Description,
@@ -113,7 +115,7 @@ func index(c echo.Context) error {
 		"Project": result,
 	}
 
-	fmt.Println(result)
+	fmt.Println(result[1])
 	return tmpl.Execute(c.Response(), Proj)
 }
 
