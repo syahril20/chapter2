@@ -1,0 +1,362 @@
+* {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+        }
+
+        .card {
+            width: 420px;
+            height: 400px;
+            margin: 1em;
+            perspective: 1500px;
+        }
+
+        .card .content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.75, 0, 0.85, 1);
+        }
+
+        .more {
+            display: hidden;
+        }
+
+        .more:checked~.content {
+            transform: rotateY(180deg);
+        }
+
+        .cek {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            border-radius: 6px;
+            justify-items: center;
+            transform: rotateY(180deg);
+            background-color: #fff;
+            border: 2px solid #f0f0f0;
+            background-color: #fff;
+            background-size: cover;
+            background-position: center center;
+        }
+
+        .cek .inner {
+            height: 100%;
+            display: flex;
+            padding: 1.5em;
+            transform: translateZ(80px) scale(0.94);
+            grid-template-rows: 1fr 2fr 1fr 2fr 14fr 1fr 1fr;
+            grid-template-columns: repeat(4, auto);
+            grid-column-gap: 0.8em;
+            justify-items: center;
+        }
+
+        .front {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            border-radius: 6px;
+
+        }
+
+        .front .inner {
+
+            height: 100%;
+            display: flex;
+            padding: 1em;
+            transform: translateZ(80px) scale(0.94);
+        }
+
+        .front {
+            background-color: #fff;
+            background-size: cover;
+            background-position: center center;
+        }
+
+        .front:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 6px;
+            backface-visibility: hidden;
+            background: linear-gradient(40deg, rgba(67, 138, 243, 0.7), rgba(255, 242, 166, 0.7));
+        }
+
+        .front .inner {
+            grid-template-rows: 5fr 1fr 1fr 2fr 1fr;
+            justify-items: center;
+        }
+
+        .button {
+            grid-row: -1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            padding: 0 1.5em;
+            height: 3em;
+            line-height: 2.9em;
+            min-width: 3em;
+            background-color: transparent;
+            border: solid 2px #fff;
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+            left: 50%;
+            backface-visibility: hidden;
+            transition: 0.3s ease-in-out;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .button:hover {
+            background-color: #fff;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            text-shadow: none;
+            color: #355cc9;
+        }
+
+        .button.return {
+            line-height: 3em;
+            color: #355cc9;
+            border-color: #355cc9;
+            text-shadow: none;
+        }
+
+        .button.return:hover {
+            background-color: #355cc9;
+            color: #fff;
+            box-shadow: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #859ddf;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #355cc9;
+        }
+
+        .holder,
+        .first,
+        .second,
+        .third {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .first,
+        .second,
+        .third {
+            position: absolute;
+        }
+
+        .second,
+        .third {
+            opacity: 0;
+        }
+
+        .holder {
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .first {
+            animation: first 10s infinite;
+            background: linear-gradient(#5ff8ca, #60e08c);
+            z-index: 10;
+        }
+
+        @keyframes first {
+            0% {
+                opacity: 1.0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            20% {
+                opacity: 0.6;
+            }
+
+            30% {
+                opacity: 0.4;
+            }
+
+            40% {
+                opacity: 0.2;
+            }
+
+            50% {
+                opacity: 0.1;
+            }
+
+            60% {
+                opacity: 0.2;
+            }
+
+            70% {
+                opacity: 0.4;
+            }
+
+            80% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 1.0;
+            }
+        }
+
+        .second {
+            animation: second 10s infinite;
+            animation-delay: 2s;
+            background: linear-gradient(#19eaa6, #00a1f0);
+            z-index: 20;
+        }
+
+        @keyframes second {
+            0% {
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.2;
+            }
+
+            20% {
+                opacity: 0.4;
+            }
+
+            30% {
+                opacity: 0.6;
+            }
+
+            40% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1.0;
+            }
+
+            60% {
+                opacity: 0.8;
+            }
+
+            70% {
+                opacity: 0.6;
+            }
+
+            80% {
+                opacity: 0.4;
+            }
+
+            90% {
+                opacity: 0.2;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .third {
+            animation: third 10s infinite;
+            animation-delay: 8s;
+            background: linear-gradient(#aab7f8, #ff75c6);
+            z-index: 30;
+        }
+
+        @keyframes third {
+            0% {
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.2;
+            }
+
+            20% {
+                opacity: 0.4;
+            }
+
+            30% {
+                opacity: 0.6;
+            }
+
+            40% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1.0;
+            }
+
+            60% {
+                opacity: 0.8;
+            }
+
+            70% {
+                opacity: 0.6;
+            }
+
+            80% {
+                opacity: 0.4;
+            }
+
+            90% {
+                opacity: 0.2;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .txt {
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+        }

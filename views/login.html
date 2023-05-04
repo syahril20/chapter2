@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/dist/output.css">
+    <link rel="stylesheet" href="/public/dist/style2.css">
+    <link rel="stylesheet" href="/public/dist/login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <title>LOGIN</title>
+    <style>
+        
+    </style>
+</head>
+
+<body class=" h-full" style="font-family: Comic sans ms;">
+
+    
+    <div class="first"></div>
+    <div class="second"></div>
+    <div class="third"></div>
+    
+    <div class="wrapper txt">
+        <div class="card">
+           
+            <input type="checkbox" id="card1" class="more hidden" aria-hidden="true">
+            <div class="content">
+                <div class="front"
+                    style="background-image: url('https://images.unsplash.com/photo-1529408686214-b48b8532f72c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=986e2dee5c1b488d877ad7ba1afaf2ec&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="inner flex justify-center items-center h-full">
+                        <div id="box" class="bg-slate-400 flex flex-col rounded-md w-80">
+                            <h1 class="text-center mt-5">Login</h1>
+                            <div id="form">
+                                <form action="/login" method="post" class="flex flex-col gap-4 p-5 ">
+                                    <div class="flex flex-col gap-4">
+                                        <div>
+                                            <input type="text" class="w-full rounded-md p-2" placeholder="Username" 
+                                                name="nameLog" required>
+                                        </div>
+                                        <div>
+                                            <input type="password" class="w-full rounded-md p-2" placeholder="Password"
+                                                name="passLog" required>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col justify-between gap-4">
+                                        <div class="flex justify-between">
+                                            <label for="card1" class="button" aria-hidden="true">
+                                                register
+                                            </label>
+                                            <button type="submit" class="button">login</button>
+                                        </div>
+                                        <div>
+                                            <a href="/" class="button w-full">Home</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="cek"
+                    style="background-image: url('https://images.unsplash.com/photo-1529408686214-b48b8532f72c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=986e2dee5c1b488d877ad7ba1afaf2ec&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="inner flex justify-center items-center h-full">
+                        <div id="box" class="bg-slate-400 flex flex-col rounded-md w-80">
+                            <h1 class="text-center mt-5">Register</h1>
+                            <div id="form">
+                                <form action="/register" method="post" class="flex flex-col gap-4 p-5 ">
+                                    <div class="flex flex-col gap-4">
+                                        <div>
+                                            <input type="text" class="w-full rounded-md p-2" placeholder="Username"
+                                                name="name" required>
+                                        </div>
+                                        <div>
+                                            <input type="email" class="w-full rounded-md p-2" placeholder="Email"
+                                                name="email" required>
+                                        </div>
+                                        <div>
+                                            <input type="password" class="w-full rounded-md p-2" placeholder="Password"
+                                                name="password" required>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <label for="card1" class="button" aria-hidden="true">
+                                            Login
+                                        </label>
+                                        <button type="submit" class="button">Register</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+</html>

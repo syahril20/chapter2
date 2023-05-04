@@ -11,11 +11,6 @@
 
     <title>Document</title>
 
-    <style>
-        .yaya{
-            transition-duration: 1s;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-200" style="font-family: Comic sans ms;">
@@ -26,12 +21,21 @@
                 <img src="/public/assets/logo.png" class="m-2 pr-2">
                 <div class="hidden flex-row items-center sm:flex">
                     <a href="/" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Home</a>
+                    {{if .isLogin}}
                     <a href="/myProject" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Add Project</a>
+                    {{end}}
                     <!-- <a href="./testimonial.html" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Testimonial</a> -->
                 </div>
             </div>
-            <div id="nav-right" class="flex p-2 gap-2">
-                <div class="hidden sm:flex">
+
+            <div id="nav-right" class="flex  gap-2">
+
+                {{if .isLogin}}
+                <a href="/logout" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Logout</a>
+                {{else}}
+                <a href="/loginForm" class="p-3 hover:bg-blue-500 hover:text-white transition-all">Login</a>
+                {{end}}
+                <div class="hidden sm:flex p-2">
                     <a href="/contactMe"
                         class="bg-black text-white rounded-xl px-2 py-1 hover:bg-blue-500 transition-all">Contact Me</a>
                 </div>
@@ -45,7 +49,21 @@
             </div>
         </nav>
     </div>
+    {{if .alertStatus}}
+    <div id="toast-success" class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+            <span class="sr-only">Check icon</span>
+        </div>
+        <div class="ml-3 text-sm font-normal">Login Sukses.</div>
+        <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+    </div>
+    {{end}}
 
+   
     <div id="nav-down" class="mobileNav flex flex-col text-center justify-center bg-gray-300  sm:hidden shadow-lg">
         <a href="/" class="py-2 hover:bg-blue-500 hover:text-white transition-all">Home</a>
         <a href="/myProject" class="py-2 hover:bg-blue-500 hover:text-white transition-all">My Project</a>
@@ -58,7 +76,7 @@
             <div id="content" class="flex flex-col items-center lg:flex-row">
                 <div id="left-content" class="m-7">
                     <div id="content1" class="mb-5">
-                        <h1 class="text-3xl text"><b>Welcome to my hut</b></h1>
+                        <h1 class="text-3xl text"><b>Welcome to my hut, {{.name}}</b></h1>
                         <p class="text-justify"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
                             adipisci animi, ad mollitia tenetur dicta, omnis aperiam pariatur facilis optio a
                             temporibus! In ullam dicta maxime voluptates vel delectus corrupti non illo minima debitis
@@ -113,14 +131,18 @@
             <h1 class="text-3xl my-10">My Project</h1>
         </center>
         <div id="card-area " class="flex flex-row justify-center m-4 flex-wrap">
-            {{ range $index, $data := .Project }}
-            <div id="box" class="p-3 w-80 bg-white rounded-lg flex flex-col justify-between gap-4 shadow-lg m-3">
+
+            {{if .isLogin}}
+            <!-- LOGIN DENGAN TAMPIL DATA BERDASARKAN LOGIN ID -->
+            {{ range $index, $data := .ProjectS }}
+
+            <div id="box" class="p-3 w-80 bg-white rounded-lg flex flex-col gap-4 shadow-lg m-3">
                 <!-- IMAGE -->
                 <div>
-                    <img src="{{.Img}}" alt="" class="w-80 h-80 rounded-lg object-cover">
+                    <img src="/upload/{{$data.Img}}" alt="" class="w-80 h-80 rounded-lg object-cover">
                 </div>
                 <!-- IMAGE -->
-
+                
                 <!-- MODALS DETAIL BUTTON -->
                 <button data-modal-target="staticModal{{$data.Id}}" data-modal-toggle="staticModal{{$data.Id}}"
                     class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500" type="button">
@@ -143,8 +165,8 @@
                             <!-- Modal body -->
                             <div class="p-6 space-y-6">
                                 <div class="grid lg:grid-rows-4 lg:grid-flow-col gap-4">
-                                    <div class="row-span-3 ">
-                                        <img src="{{.Img}}" alt="" class="object-cover h-full w-full">
+                                    <div class="row-span-3 h-96 w-auto">
+                                        <img src="/upload/{{$data.Img}}" alt="" class="object-cover h-full w-full">
                                     </div>
                                     <div class=" md:col-span-1 text-center bg-yellow-100">
                                         <label for="duration"
@@ -198,6 +220,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <label class="text-base  text-gray-500">Author : {{.UserName}}</label>
 
                                 <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                     {{.Description}}
@@ -205,7 +228,8 @@
                             </div>
                             <!-- Modal footer -->
                             <div class="flex p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                <button data-modal-hide="staticModal{{$data.Id}}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                <button data-modal-hide="staticModal{{$data.Id}}" type="button"
+                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                     Close
                                 </button>
                             </div>
@@ -216,14 +240,19 @@
 
                 <!-- HEADER -->
                 <div id="header" class="text-justify flex flex-col">
-                    <a href="/proj-detail/{{.Id}}" class="text-base">{{.Title}}</a>
+                    <div class="h-20">
+                        <a href="/proj-detail/{{.Id}}" class="text-base">{{.Title}}</a>
+                    </div>
+                    <hr class="h-2">
+                    <label class="text-sm text-slate-400 ">Author : {{.UserName}}</label>
                     <label for="duration" class="text-sm text-slate-400">duration : {{.Duration}}</label>
                     <label for="time" class="text-sm text-slate-400">{{.Postdate}}</label>
                 </div>
                 <!-- HEADER -->
                 <!-- CONTENT -->
                 <div id="desc" class="text-justify ">
-                    <p class="text-sm" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 40rem;">{{.Description}}</p>
+                    <p class="text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+                        {{.Description}}</p>
                 </div>
                 <!-- CONTENT -->
                 <!-- AREA LOGO -->
@@ -243,10 +272,13 @@
                 </div>
                 <!-- AREA LOGO -->
                 <!-- AREA BUTTON -->
+               {{if $.isLogin}}
                 <div id="button-area" class="flex flex-row justify-between gap-3">
                     <div class="flex flex-col text-center w-6/12">
+                        
                         <a href="/editProject/{{.Id}}"
                             class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">edit</a>
+                            
                     </div>
                     <div class="flex flex-col text-center w-6/12">
                         <button data-modal-target="Delete{{$data.Id}}" data-modal-toggle="Delete{{$data.Id}}"
@@ -282,15 +314,212 @@
                                         Cancel
                                     </button>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
+                {{end}}
                 <!-- AREA BUTTON -->
             </div>
-            
+
             {{end}}
+            <!-- LOGIN DENGAN TAMPIL DATA BERDASARKAN LOGIN ID -->
+            {{else}}
+            <!-- TAMPIL DATA TANPA LOGIN -->
+            {{ range $index, $data := .Project }}
+
+            <div id="box" class="p-3 w-80 bg-white rounded-lg flex flex-col gap-4 shadow-lg m-3">
+                <!-- IMAGE -->
+                <div>
+                    <img src="/upload/{{$data.Img}}" alt="" class="w-80 h-80 rounded-lg object-cover">
+                </div>
+                <!-- IMAGE -->
+                
+                <!-- MODALS DETAIL BUTTON -->
+                <button data-modal-target="staticModal{{$data.Id}}" data-modal-toggle="staticModal{{$data.Id}}"
+                    class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500" type="button">
+                    Detail
+                </button>
+                <!-- MODALS DETAIL BUTTON -->
+
+                <!-- MODALS DETAIL -->
+                <div id="staticModal{{$data.Id}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+                    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ">
+                    <div class="relative w-full max-w-5xl max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-gray-100 rounded-lg shadow dark:bg-gray-700">
+                            <!-- Modal header -->
+                            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Detail Content
+                                </h3>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="p-6 space-y-6">
+                                <div class="grid lg:grid-rows-4 lg:grid-flow-col gap-4">
+                                    <div class="row-span-3 h-96 w-[500px]" style="border: black solid;">
+                                        <img src="/upload/{{$data.Img}}" alt="" class="object-cover h-full w-full">
+                                    </div>
+                                    <div class=" md:col-span-1 text-center bg-yellow-100">
+                                        <label for="duration"
+                                            class="text-xl font-semibold leading-relaxed text-gray-900 dark:text-gray-400">{{.Title}}</label>
+                                    </div>
+                                    <div class="md:row-span-2 bg-yellow-100">
+                                        <div class=" text-center bg-yellow-200">
+                                            <label for="duration" class="text-xl font-semibold">Duration</label>
+                                        </div>
+                                        <div id="dur-content" class="flex items-center mt-5 mx-2">
+                                            <img src="/public/assets/calendar.png" alt="logo"
+                                                class="duration-logo w-11 mr-2">
+                                            <label for="duration" class="">{{.Start}} - {{.End}}</label>
+                                        </div>
+                                        <div id="dur-content" class="flex items-center mt-5 mx-2">
+                                            <img src="/public/assets/clock.png" alt="logo"
+                                                class="duration-logo w-11 mr-2">
+                                            <label for="duration" class="">{{.Postdate}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="md:row-span-2 bg-yellow-100">
+                                        <div class=" text-center bg-yellow-200">
+                                            <label for="duration" class="text-xl font-semibold">Technologies</label>
+                                        </div>
+                                        <div class="tech-area flex flex-wrap gap-3 lg:justify-start mx-2">
+                                            {{if index .Technologies 0}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/react.png" alt="" class="tech-logo w-11 mr-2">
+                                                <label for="nodeCheckbox">React Js</label>
+                                            </div>
+                                            {{end}}
+                                            {{if index .Technologies 1}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/next.png" alt="" class="tech-logo w-11 mr-2">
+                                                <label for="nextCheckbox">Next Js</label>
+                                            </div>
+                                            {{end}}
+                                            {{if index .Technologies 2}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/node.png" alt="" class="tech-logo w-11 mr-2">
+                                                <label for="reactCheckbox">Node Js</label>
+                                            </div>
+                                            {{end}}
+                                            {{if index .Technologies 3}}
+                                            <div class="mid flex items-center my-4">
+                                                <img src="/public/assets/typescript.png" alt=""
+                                                    class="tech-logo w-11 mr-2">
+                                                <label for="typescriptCheckbox">TypeScript</label>
+                                            </div>
+                                            {{end}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="text-base  text-gray-500">Author : {{.UserName}}</label>
+
+                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                    {{.Description}}
+                                </p>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="flex p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                <button data-modal-hide="staticModal{{$data.Id}}" type="button"
+                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODALS DETAIL -->
+
+                <!-- HEADER -->
+                <div id="header" class="text-justify flex flex-col">
+                    <div class="h-20">
+                        <a href="/proj-detail/{{.Id}}" class="text-base">{{.Title}}</a>
+                    </div>
+                    <hr class="h-2">
+                    <label class="text-sm text-slate-400 ">Author : {{.UserName}}</label>
+                    <label for="duration" class="text-sm text-slate-400">duration : {{.Duration}}</label>
+                    <label for="time" class="text-sm text-slate-400">{{.Postdate}}</label>
+                </div>
+                <!-- HEADER -->
+                <!-- CONTENT -->
+                <div id="desc" class="text-justify ">
+                    <p class="text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+                        {{.Description}}</p>
+                </div>
+                <!-- CONTENT -->
+                <!-- AREA LOGO -->
+                <div id="logo-area" class="flex gap-3">
+                    {{if index .Technologies 0}}
+                    <img src="/public/assets/node.png" alt="" class="w-[35px]">
+                    {{end}}
+                    {{if index .Technologies 1}}
+                    <img src="/public/assets/next.png" alt="" class="w-[35px]">
+                    {{end}}
+                    {{if index .Technologies 2}}
+                    <img src="/public/assets/react.png" alt="" class="w-[35px]">
+                    {{end}}
+                    {{if index .Technologies 3}}
+                    <img src="/public/assets/typescript.png" alt="" class="w-[35px]">
+                    {{end}}
+                </div>
+                <!-- AREA LOGO -->
+                <!-- AREA BUTTON -->
+               {{if $.isLogin}}
+                <div id="button-area" class="flex flex-row justify-between gap-3">
+                    <div class="flex flex-col text-center w-6/12">
+                        
+                        <a href="/editProject/{{.Id}}"
+                            class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500">edit</a>
+                            
+                    </div>
+                    <div class="flex flex-col text-center w-6/12">
+                        <button data-modal-target="Delete{{$data.Id}}" data-modal-toggle="Delete{{$data.Id}}"
+                            class="text-white bg-gray-900 px-6 py-1 rounded-lg hover:bg-blue-500 duration-500"
+                            type="button">
+                            Delete
+                        </button>
+                    </div>
+                    <div id="Delete{{$data.Id}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+                        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative w-full max-w-xs max-h-full">
+                            <!-- Modal content -->
+                            <div class="relative bg-gray-100 rounded-lg shadow dark:bg-gray-700">
+                                <!-- Modal header -->
+                                <div
+                                    class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        Delete Alert
+                                    </h3>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="p-6 space-y-6">
+                                    Yakin mau dihapus?
+                                </div>
+                                <!-- Modal footer -->
+                                <div
+                                    class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                    <a type="button" href="/delete-proj/{{.Id}}"
+                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
+                                        accept</a>
+                                    <button data-modal-hide="Delete{{$data.Id}}" type="button"
+                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                        Cancel
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+                <!-- AREA BUTTON -->
+            </div>
+
+            {{end}}
+            <!-- TAMPIL DATA TANPA LOGIN -->
+            {{end}}
+            
         </div>
     </div>
 
