@@ -11,7 +11,77 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <title>LOGIN</title>
     <style>
-        
+        /* Input container */
+.input-container {
+  position: relative;
+  margin: 20px;
+}
+
+/* Input field */
+.input-field {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #ffffff;
+  outline: none;
+  background-color: transparent;
+}
+
+/* Input label */
+.input-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Input highlight */
+.input-highlight {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #fbfdff;
+  transition: all 0.3s ease;
+}
+
+/* Input field:focus styles */
+.input-field:focus + .input-label {
+  top: -20px;
+  font-size: 12px;
+  color: #fafafa;
+}
+
+.input-field:focus + .input-label + .input-highlight {
+  width: 100%;
+}
+
+.label {
+			display: inline-block;
+			padding: 10px;
+			background-color: #F9C74F;
+			color: #333;
+			font-weight: bold;
+			font-size: 20px;
+			animation: shake 0.5s;
+			animation-iteration-count: 1;
+			animation-fill-mode: forwards;
+			animation-timing-function: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+		}
+
+		@keyframes shake {
+			0% { transform: translateX(0); }
+			25% { transform: translateX(-10px); }
+			50% { transform: translateX(10px); }
+			75% { transform: translateX(-10px); }
+			100% { transform: translateX(0); }
+		}
     </style>
 </head>
 
@@ -24,7 +94,14 @@
     
     <div class="wrapper txt">
         <div class="card">
-           
+            {{if .alertStatus}}
+            <div class="label">{{.message}}</div>
+            {{else}}
+            {{end}}
+            {{if .isRegister}}
+            <div class="label">{{.pesan}}</div>
+            {{else}}
+            {{end}}
             <input type="checkbox" id="card1" class="more hidden" aria-hidden="true">
             <div class="content">
                 <div class="front"

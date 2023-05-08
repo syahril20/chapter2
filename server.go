@@ -39,11 +39,6 @@ type User struct {
 	Password string
 }
 
-type SessionData struct {
-	IsLogin bool
-	Name    string
-}
-
 // var dataProj = []Project{
 // 	{
 // 		Img:         "/public/assets/content.png",
@@ -89,7 +84,7 @@ func main() {
 		c.HTML(code, "<h1>"+message+"</h1>")
 	}
 	// Server
-	e.Logger.Fatal(e.Start("localhost:2054"))
+	e.Logger.Fatal(e.Start("localhost:2055"))
 }
 
 var node string
@@ -199,12 +194,17 @@ func index(c echo.Context) error {
 		"Project":     result,
 		"ProjectS":    resultS,
 		"alertStatus": sess.Values["alertStatus"],
+		"message":     sess.Values["message"],
 		"isLogin":     sess.Values["isLogin"],
 		"name":        sess.Values["name"],
 		"id":          sess.Values["id"],
+		"isLogout":    sess.Values["isLogout"],
 	}
 
 	delete(sess.Values, "alertStatus")
+	delete(sess.Values, "isLogout")
+	delete(sess.Values, "message")
+
 	sess.Save(c.Request(), c.Response())
 
 	return tmpl.Execute(c.Response(), Proj)
@@ -227,6 +227,7 @@ func myProject(c echo.Context) error {
 	Proj := map[string]interface{}{
 		"isLogin": sess.Values["isLogin"],
 	}
+
 	return tmpl.Execute(c.Response(), Proj)
 }
 
@@ -307,7 +308,7 @@ func addProj(c echo.Context) error {
 	}
 
 	// Return success response
-	return c.Redirect(http.StatusMovedPermanently, "/")
+	return redirectWithMessage(c, "Data Berhasil Di tambah", true, "/")
 }
 
 func editProject(c echo.Context) error {
@@ -394,6 +395,7 @@ func updateProj(c echo.Context) error {
 	} else {
 		typescript = "fTypescript"
 	}
+	fmt.Println(title)
 
 	technologies := []string{
 		node,
@@ -401,15 +403,14 @@ func updateProj(c echo.Context) error {
 		react,
 		typescript,
 	}
-
-	fmt.Println(img)
 	_, err := connection.Conn.Exec(context.Background(), "UPDATE tb_project	SET img=$1, title=$2, start=$3, stop=$4, description=$5, duration=$6, postdate=$7, technologies=$8	WHERE id_project=$9;", img, title, start, end, description, duration, postdate, technologies, id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 	}
+	fmt.Println(img)
 
 	// Return success response
-	return c.Redirect(http.StatusMovedPermanently, "/")
+	return redirectWithMessage(c, "Data Berhasil Di edit", true, "/")
 }
 
 func projDetail(c echo.Context) error {
@@ -469,12 +470,16 @@ func projDetail(c echo.Context) error {
 }
 
 func deleteProj(c echo.Context) error {
+	sess, _ := session.Get("session", c)
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	_, err := connection.Conn.Exec(context.Background(), "DELETE FROM tb_project WHERE id_project=$1", id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 	}
+	sess.Values["alertStatus"] = true
+	sess.Values["message"] = "Delete Berhasil"
+	sess.Save(c.Request(), c.Response())
 
 	return c.Redirect(http.StatusMovedPermanently, "/")
 }
@@ -490,20 +495,22 @@ func register(c echo.Context) error {
 
 	passwordHash, _ := bcrypt.GenerateFromPassword([]byte(password), 10)
 	_, err = connection.Conn.Exec(context.Background(), "INSERT INTO tb_user (name, email, password) VALUES ($1, $2, $3)", name, email, passwordHash)
-
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 	}
-
+	fmt.Println(name)
+	sess, _ := session.Get("session", c)
+	sess.Values["pesan"] = "Regist Sukses"
+	sess.Values["isRegister"] = true
+	sess.Save(c.Request(), c.Response())
 	// Return success response
-	return redirectWithMessage(c, "Berhasil tambah data", true, "/loginForm")
+	return c.Redirect(http.StatusMovedPermanently, "/loginForm")
 }
 
-func redirectWithMessage(c echo.Context, message string, status bool, path string) error {
+func redirectWithMessage(c echo.Context, message string, alertStatus bool, path string) error {
 	sess, _ := session.Get("session", c)
 	sess.Values["message"] = message
-	sess.Values["status"] = status
-
+	sess.Values["alertStatus"] = alertStatus
 	sess.Save(c.Request(), c.Response())
 
 	return c.Redirect(http.StatusMovedPermanently, path)
@@ -512,11 +519,16 @@ func redirectWithMessage(c echo.Context, message string, status bool, path strin
 func loginForm(c echo.Context) error {
 	sess, _ := session.Get("session", c)
 	Proj := map[string]interface{}{
-		"isLogin": sess.Values["isLogin"],
+		"message":     sess.Values["message"],
+		"alertStatus": sess.Values["alertStatus"],
+		"pesan":       sess.Values["pesan"],
+		"isRegister":  sess.Values["isRegister"],
 	}
 
 	delete(sess.Values, "message")
 	delete(sess.Values, "alertStatus")
+	delete(sess.Values, "pesan")
+	delete(sess.Values, "isRegister")
 	sess.Save(c.Request(), c.Response())
 	tmpl, err := template.ParseFiles("views/login.html")
 	if err != nil {
@@ -537,25 +549,24 @@ func login(c echo.Context) error {
 	user := User{}
 	err = connection.Conn.QueryRow(context.Background(), "SELECT * FROM tb_user WHERE name=$1", name).Scan(&user.Id, &user.Name, &user.Email, &user.Password)
 
-	fmt.Println(user)
+	fmt.Println(name)
 	if err != nil {
-		return redirectWithMessage(c, "Name Salah !", false, "/loginForm")
+		return redirectWithMessage(c, "NAMA SALAH !", true, "/loginForm")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 
-	fmt.Println(err)
 	if err != nil {
-		return redirectWithMessage(c, "Password Salah !", false, "/loginForm")
+		return redirectWithMessage(c, "Password Salah !", true, "/loginForm")
 	}
 
 	sess, _ := session.Get("session", c)
-	sess.Options.MaxAge = 10800 // 3 jam
+	sess.Options.MaxAge = 3600
 	sess.Values["message"] = "Login Success"
-	sess.Values["alertStatus"] = true // show alert
+	sess.Values["alertStatus"] = true
 	sess.Values["name"] = user.Name
 	sess.Values["id"] = user.Id
-	sess.Values["isLogin"] = true // access login
+	sess.Values["isLogin"] = true
 	sess.Save(c.Request(), c.Response())
 
 	return c.Redirect(http.StatusMovedPermanently, "/")
@@ -563,10 +574,10 @@ func login(c echo.Context) error {
 
 func logout(c echo.Context) error {
 	sess, _ := session.Get("session", c)
-	// sess.Values["isLogin"] = nil
-	// sess.Values["name"] = nil
 	delete(sess.Values, "isLogin")
 	delete(sess.Values, "name")
+	sess.Values["alertStatus"] = true
+	sess.Values["message"] = "Logout Berhasil"
 	sess.Save(c.Request(), c.Response())
 
 	// Hapus semua cache yang terkait dengan halaman saat ini

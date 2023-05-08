@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -10,26 +11,30 @@ import (
 
 func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		file, err := c.FormFile("img")
+		file, err := c.FormFile("img") // MENERIMA FILE
 
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)
 		}
 
-		src, err := file.Open()
+		if file == nil {
+			fmt.Println("Kosong")
+		}
+
+		src, err := file.Open() // MEMBUKA FILE
 
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)
 		}
 
-		defer src.Close()
+		defer src.Close() // MENUTUP FILE
 
-		tempFile, err := ioutil.TempFile("upload", "image-*.png") // upload/image-3e10e160.png
+		tempFile, err := ioutil.TempFile("upload", "image-*.png") // MEMBBUAT FILE BARU OTOMATIS ADA DIRECTORY UPLOAD
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err)
 		}
 
-		defer tempFile.Close()
+		defer tempFile.Close() // MENUTUP FUNC SETELAH SELESAI DIJALANKAN
 
 		if _, err = io.Copy(tempFile, src); err != nil {
 			return c.JSON(http.StatusInternalServerError, err)

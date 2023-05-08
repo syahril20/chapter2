@@ -1,3 +1,3 @@
-$("#toggle-button").click(function(){
+$("#burger").click(function(){
     $(".mobileNav").toggleClass("mobileNav-active");
  });
